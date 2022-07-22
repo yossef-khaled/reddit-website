@@ -4,5 +4,7 @@
 
 ### What was used for the front end:
 * **Next JS**
+* **Chakra-ui**
 * **Typescript**
-* **React JS**
+* **urql**
+* **Graphql code generator**
