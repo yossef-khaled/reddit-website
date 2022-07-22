@@ -11,32 +11,23 @@ import { Formik, Form } from 'formik';
 import Wrapper from '../components/Wrapper'; 
 import InputField from '../components/InputField';
 
-//Import from urql
-import { useMutation } from 'urql';
+//Import graphql hooks generated with graphql code generator
+import { useRegisterMutation } from '../generated/graphql';
+import { toErrorMap } from '../utils/toErrorMap';
+
+//Import from next 
+import { useRouter } from 'next/router';
 
 interface registerProps {
     
 }
 
-const REGISTER_MUTATION = `
-    mutation Register($username: String!, $password: String!) {
-        register (options : {username: $username, password: $password}) {
-          errors {
-              field
-              message
-          }
-          user {
-              id
-              username
-          }
-        }
-    }
-`
-
 const Register: FC<registerProps> = ({}) => {
 
-    const [registerMutationResult, doRegister] = useMutation(REGISTER_MUTATION);
-    const {data, fetching, error} = registerMutationResult;
+    const router = useRouter();
+    const [registerMutationResult, doRegister] = useRegisterMutation();
+
+    var {data, fetching, error} = registerMutationResult;
 
     useEffect(() => {
         console.log(error);
@@ -47,8 +38,14 @@ const Register: FC<registerProps> = ({}) => {
         <Wrapper>
             <Formik 
                 initialValues={{username: '', password: ''}}
-                onSubmit={(values) => {
-                    doRegister(values)
+                onSubmit={async (values, { setErrors }) => {
+                    const responce = await doRegister(values); 
+                    if(responce.data?.register.errors) {
+                        setErrors(toErrorMap(responce.data.register.errors));
+                    }
+                    else if (responce.data?.register.user) {
+                        router.push('/');
+                    }
                 }}    
             >
                 {({values, handleChange, isSubmitting}) => (
