@@ -12,7 +12,7 @@ import { Provider, createClient, dedupExchange, fetchExchange } from 'urql';
 import { cacheExchange, Cache, QueryInput } from '@urql/exchange-graphcache';
 
 //Import urql auto generated types
-import { MeDocument, LoginMutation, RegisterMutation, MeQuery } from '../generated/graphql';
+import { MeDocument, LoginMutation, RegisterMutation, MeQuery, LogoutMutation } from '../generated/graphql';
 
 // This function is a better way to declare cache.updateQuery args types
 function betterUpdateQuery<Result, Query>(
@@ -59,6 +59,21 @@ const client = createClient({
               } 
               return {
                 me: result.register.user,
+              }
+            }
+          )
+        },
+        logout: (_result, args, cache, info) => {
+          betterUpdateQuery<LogoutMutation, MeQuery> (
+            cache,
+            {query: MeDocument},
+            _result,
+            (result, query) => {
+              if(!result.logout) {
+                return query;
+              } 
+              return {
+                me: null,
               }
             }
           )
