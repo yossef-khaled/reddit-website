@@ -6,14 +6,24 @@ import NextLink from 'next/link';
 import { useEffect } from "react";
 import { useLogoutMutation, useMeQuery } from "../generated/graphql";
 
+//Import utils
+import { isServer } from "../utils/isServer";
+ 
 interface NavBarProps {
     
 }
 
 const NavBar: React.FC<NavBarProps> = ({ }) => {
 
-    const [ {data, fetching, error}, whoAmI] = useMeQuery();
+    const [ {data, fetching, error}, whoAmI] = useMeQuery({
+        // The following piece of code throws an error as isServer will deffer between the ssr value and the browser value
+        // See : https://nextjs.org/docs/messages/react-hydration-error
+        
+        // pause: isServer(), 
+    });
     const [logoutMutationResult, doLogout] = useLogoutMutation();
+
+    console.log('data', data);
 
     var navbarBody = null;
 
