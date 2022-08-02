@@ -2,7 +2,7 @@
 import React, { FC, useEffect } from 'react'; 
 
 //Import from @chakra-ui/react
-import { FormControl, FormLabel, Input, FormErrorMessage, Box, Button } from '@chakra-ui/react';
+import { Box, Button } from '@chakra-ui/react';
 
 //Import formik
 import { Formik, Form } from 'formik';
@@ -17,6 +17,8 @@ import { toErrorMap } from '../utils/toErrorMap';
 
 //Import from next 
 import { useRouter } from 'next/router';
+import { withUrqlClient } from 'next-urql';
+import createUrqlClient from '../utils/createUrqlClient';
 
 interface registerProps {
     
@@ -79,4 +81,4 @@ const Register: FC<registerProps> = ({}) => {
     );
 }
 
-export default Register;
+export default withUrqlClient(createUrqlClient)(Register);

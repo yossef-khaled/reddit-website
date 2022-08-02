@@ -17,6 +17,8 @@ import { toErrorMap } from '../utils/toErrorMap';
 
 //Import from next 
 import { useRouter } from 'next/router';
+import { withUrqlClient } from 'next-urql';
+import createUrqlClient from '../utils/createUrqlClient';
 
 interface loginProps {
     
@@ -79,4 +81,4 @@ const Login: FC<loginProps> = ({}) => {
     );
 }
 
-export default Login;
+export default withUrqlClient(createUrqlClient)(Login);
