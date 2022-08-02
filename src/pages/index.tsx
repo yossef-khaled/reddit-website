@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 
 //Import other components
 import NavBar from "../components/NavBar"
@@ -15,7 +15,7 @@ interface IState {
   waitingDots: string,
 }
 
-const Index = () => {
+const Index: FC<IState> = () => {
 
   const [{data}] = usePostsQuery();
   const [waitingDots, setWaitingDots] = useState('');
@@ -42,7 +42,6 @@ const Index = () => {
         {!data?.posts ? 
           <div>Loading{waitingDots}</div>
         :
-        
         data.posts.map((post) => {
           return (
             <p key={post.id}>
@@ -55,4 +54,5 @@ const Index = () => {
   )
 }
 
-export default  withUrqlClient(createUrqlClient)(Index);
+// ssr: true only for pages that need to be rendered in the server, but I still need to wrap all the pages with ` withUrqlClient() `
+export default  withUrqlClient(createUrqlClient, {ssr: true})(Index);
