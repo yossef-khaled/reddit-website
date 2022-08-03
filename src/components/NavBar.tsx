@@ -3,23 +3,27 @@ import { Box, Button, Flex, Link } from "@chakra-ui/react";
 
 //Import from next
 import NextLink from 'next/link'; 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLogoutMutation, useMeQuery } from "../generated/graphql";
 
-//Import utils
-import { isServer } from "../utils/isServer";
- 
-interface NavBarProps {
-    
+interface INavBarState {
+    isServer: boolean;
 }
 
-const NavBar: React.FC<NavBarProps> = ({ }) => {
+const NavBar: React.FC<INavBarState> = ({ }) => {
+
+    const [isServer, setIsServer] = useState(true);
+
+    useEffect(() => {
+        setIsServer(false);
+    }, [])
 
     const [ {data, fetching, error}, whoAmI] = useMeQuery({
-        // The following piece of code throws an error as isServer will deffer between the ssr value and the browser value
+        // The following piece of code throws an error when isServer depends on typeof window 
+        // as it will deffer between the ssr value and the browser value (I guess...)
         // See : https://nextjs.org/docs/messages/react-hydration-error
         
-        // pause: isServer(), 
+        pause: isServer, 
     });
     const [logoutMutationResult, doLogout] = useLogoutMutation();
 
