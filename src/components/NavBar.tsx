@@ -6,11 +6,7 @@ import NextLink from 'next/link';
 import { useEffect, useState } from "react";
 import { useLogoutMutation, useMeQuery } from "../generated/graphql";
 
-interface INavBarState {
-    isServer: boolean;
-}
-
-const NavBar: React.FC<INavBarState> = ({ }) => {
+const NavBar = ({ }) => {
 
     const [isServer, setIsServer] = useState(true);
 
