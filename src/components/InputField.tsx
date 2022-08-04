@@ -30,7 +30,7 @@ const InputField: FC<InputFieldProps> = ({label, placeholder, size: _, ...props}
             <Input 
                 {...field} 
                 {...props}
-                type={field.name}
+                type={props.type}
                 id={field.name} 
                 placeholder={placeholder}
             />

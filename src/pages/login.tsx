@@ -62,6 +62,7 @@ const Login: FC<loginProps> = ({}) => {
                                 name='password'
                                 placeholder='Please, type in your password'
                                 label='Password'
+                                type='password'
                             />
                         </Box>
                         <Button 
