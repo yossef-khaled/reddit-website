@@ -2,7 +2,7 @@
 import React, { FC, useEffect } from 'react'; 
 
 //Import from @chakra-ui/react
-import { FormControl, FormLabel, Input, FormErrorMessage, Box, Button } from '@chakra-ui/react';
+import { Box, Button, Link, Flex } from '@chakra-ui/react';
 
 //Import formik
 import { Formik, Form } from 'formik';
@@ -19,6 +19,7 @@ import { toErrorMap } from '../utils/toErrorMap';
 import { useRouter } from 'next/router';
 import { withUrqlClient } from 'next-urql';
 import createUrqlClient from '../utils/createUrqlClient';
+import NextLink from 'next/link';
 
 interface loginProps {
     
@@ -65,6 +66,13 @@ const Login: FC<loginProps> = ({}) => {
                                 type='password'
                             />
                         </Box>
+                        <Flex mt={5}>
+                            <NextLink href='/forgot-password'>
+                                <Link ml={'auto'}>
+                                    Forgot password?
+                                </Link>
+                            </NextLink>
+                        </Flex>
                         <Button 
                             mt={10} 
                             mx={'auto'} 
