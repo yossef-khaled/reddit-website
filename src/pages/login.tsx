@@ -12,7 +12,7 @@ import Wrapper from '../components/Wrapper';
 import InputField from '../components/InputField';
 
 //Import graphql hooks generated with graphql code generator
-import { useLoginMutation, useRegisterMutation } from '../generated/graphql';
+import { useLoginMutation } from '../generated/graphql';
 import { toErrorMap } from '../utils/toErrorMap';
 
 //Import from next 
