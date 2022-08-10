@@ -29,13 +29,6 @@ const Register: FC<registerProps> = ({}) => {
     const router = useRouter();
     const [registerMutationResult, doRegister] = useRegisterMutation();
 
-    var {data, fetching, error} = registerMutationResult;
-
-    useEffect(() => {
-        console.log(error);
-        console.log(data);
-    }, [registerMutationResult])
-
     return (
         <Wrapper>
             <Formik 
