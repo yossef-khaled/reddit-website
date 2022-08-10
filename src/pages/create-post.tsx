@@ -9,6 +9,7 @@ import { Formik, Form } from "formik";
 
 //Import other components
 import InputField from "../components/InputField";
+import Layout from "../components/layout";
 
 //Import from next 
 import { useRouter } from 'next/router';
@@ -17,14 +18,17 @@ import createUrqlClient from '../utils/createUrqlClient';
 
 //Import auto generated mutation hook
 import { useCreatePostMutation } from "../generated/graphql";
-import Layout from "../components/layout";
+
+//Import utils
 import { toErrorMap } from "../utils/toErrorMap";
+import { userIsAuth } from "../utils/useIsAuth";
 
 const CreatePost: FC<{}> = ({}) => {
     
     const [, createPost] = useCreatePostMutation();
-
     const router = useRouter();
+
+    userIsAuth();
 
     return (
         <Layout>
@@ -35,12 +39,8 @@ const CreatePost: FC<{}> = ({}) => {
                     if(response.data?.createPost.errors) {
                         setErrors(toErrorMap(response.data?.createPost.errors));
                         return;
-                    } 
-                    else if(response.error?.message.includes('NOT AUTHENTICATED')) {
-                        window.alert('Please log in');
-                        return;
                     }
-                    router.push('/');
+                    router.replace('/');
                 }}    
             >
                 {({values, handleChange, isSubmitting}) => (
