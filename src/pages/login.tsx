@@ -47,7 +47,9 @@ const Login: FC<loginProps> = ({}) => {
                         setErrors(toErrorMap(responce.data.login.errors));
                     }
                     else if (responce.data?.login.user) {
-                        router.push('/');
+                        router.query.next  
+                        ? router.replace(`${router.query.next}`)
+                        : router.replace('/')
                     }
                 }}    
             >
