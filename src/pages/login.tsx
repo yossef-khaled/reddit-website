@@ -32,11 +32,7 @@ const Login: FC<loginProps> = ({}) => {
 
     var {data, fetching, error} = loginMutationResult;
 
-    useEffect(() => {
-        console.log(error);
-        console.log(data);
-    }, [loginMutationResult])
-
+    
     return (
         <Wrapper>
             <Formik 

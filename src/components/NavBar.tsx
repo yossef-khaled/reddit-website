@@ -23,8 +23,6 @@ const NavBar = ({ }) => {
     });
     const [logoutMutationResult, doLogout] = useLogoutMutation();
 
-    console.log('data', data);
-
     var navbarBody = null;
 
     // Data is loading
