@@ -28,10 +28,7 @@ interface loginProps {
 const Login: FC<loginProps> = ({}) => {
 
     const router = useRouter();
-    const [loginMutationResult, doLogin] = useLoginMutation();
-
-    var {data, fetching, error} = loginMutationResult;
-
+    const [_, doLogin] = useLoginMutation();
     
     return (
         <Wrapper>
