@@ -5,7 +5,7 @@ import React, { FC } from "react";
 import createUrqlClient from "../utils/createUrqlClient";
 
 //Import from @chakra
-import { Box, Button, Heading, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Stack, Text } from "@chakra-ui/react";
 
 //Import from next-urql
 import { withUrqlClient } from 'next-urql'; 
@@ -24,13 +24,16 @@ interface IState {
 
 const Index: FC<IState> = () => {
 
-  const [{data}] = usePostsQuery({
-    variables: {
-      limit: 10
-    }
+  const [variables, setVariables] = useState({ 
+    limit: 10, 
+    cursor: null as null | string
+  })
+  const [{data, fetching}] = usePostsQuery({
+    variables
   });
   const [waitingDots, setWaitingDots] = useState('');
 
+  // TODO : use setInterval instead
   const timerForLoadingDots = setTimeout(() => {
       waitingDots.length == 3 ? setWaitingDots('')
       :
@@ -38,35 +41,71 @@ const Index: FC<IState> = () => {
     }
   , 500) 
 
+  console.log('Re-render')
+
   useEffect(() => {
     timerForLoadingDots;
   }, []);
 
-  if(data?.posts) {
+  if(data?.posts.posts) {
     clearTimeout(timerForLoadingDots);
+  }
+
+  if(fetching && !data?.posts) {
+    return (
+      <div>
+        Something wrong happend!
+      </div>
+    )
   }
   
   return (
     <Layout>
-      <NextLink href={'/create-post'}>
-        <Button backgroundColor={'wheat'} mb={5}>
-          Create Post
-        </Button>
-      </NextLink>
+      <Flex>
+        <Heading>
+          Reddit Clone
+        </Heading>
+        <NextLink href={'/create-post'}>
+          <Button backgroundColor={'wheat'} ml={'auto'} mb={5}>
+            Create Post
+          </Button>
+        </NextLink>
+      </Flex>
       <div>
-        {!data?.posts ? 
+        {fetching && !data?.posts.posts ? 
           <div>Loading{waitingDots}</div>
         :
         <Stack spacing={8} marginBottom={8}>
-          {data.posts.map((post) => {
+          {data?.posts.posts?.map((post) => {
             return (
               <Box p={5} key={post.id} shadow='md' borderWidth='1px'>
                 <Heading fontSize='xl'>{post.title}</Heading>
-                <Text mt={4}>{post.text}</Text>
+                <Text mt={4}>{post.textSnippet}</Text>
               </Box>
             )
           })}
         </Stack>  
+        }
+        {data ? 
+          <Flex>
+            <Button
+            disabled={!data.posts.hasMore}
+              onClick={() => {
+                  setVariables({
+                    limit: 10,
+                    cursor: data.posts.posts[data.posts.posts.length - 1].createdAt
+                  })
+              }}  
+              m='auto' 
+              mt={2} 
+              mb={10} 
+              isLoading={fetching}
+            >
+              Load more
+            </Button>
+          </Flex>
+          :
+          <></>
         }
       </div>
     </Layout>
