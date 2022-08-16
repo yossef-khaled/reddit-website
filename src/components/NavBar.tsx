@@ -65,7 +65,14 @@ const NavBar = ({ }) => {
 
     return (
         <Flex zIndex={1} position={'sticky'} top={0} bg={'tomato'} p={'5'}>
-            <Box ml={'auto'}>
+            <Box ml={'auto'} mr={'2'}>
+                <NextLink href={'/'}>
+                    <Link>
+                        Home
+                    </Link>
+                </NextLink>
+            </Box>
+            <Box>
                 {navbarBody}
             </Box>
         </Flex>
