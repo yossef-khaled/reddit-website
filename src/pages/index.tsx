@@ -17,6 +17,7 @@ import Layout from "../components/layout";
 
 //Import from next
 import NextLink from 'next/link'; 
+import { UpdootSection } from "../components/UpdootSection";
 
 interface IState {
   waitingDots: string,
@@ -78,10 +79,15 @@ const Index: FC<IState> = () => {
         <Stack spacing={8} marginBottom={8}>
           {data?.posts.posts?.map((post) => {
             return (
-              <Box p={5} key={post.id} shadow='md' borderWidth='1px'>
-                <Heading fontSize='xl'>{post.title}</Heading>
-                <Text mt={4}>{post.textSnippet}</Text>
-              </Box>
+              <Flex p={5} key={post.id} shadow='md' borderWidth='1px'>
+                <UpdootSection post={post}/>
+                <Box>
+                  <Heading fontSize='2xl'>{post.title}</Heading>
+                  By {' '}
+                  <Text fontWeight={'bold'} fontSize={'large'} display={'inline'} mt={4}>{post.creator.username}</Text>
+                  <Text mt={4}>{post.textSnippet}</Text>
+                </Box>
+              </Flex>
             )
           })}
         </Stack>  
