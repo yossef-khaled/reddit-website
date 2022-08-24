@@ -134,6 +134,15 @@ const createUrqlClient = (ssrExchange: any) => ({
             },
             updates: {
                 Mutation: {
+                    createPost: (_result, args, cache, info) => {
+                      const allFields = cache.inspectFields("Query");
+                      const fieldInfos = allFields.filter(info => info.fieldName === "posts");
+                      fieldInfos.forEach((fi) => {
+                        // whenever the mutation we are in is implemented, this will be excuted
+                        // cache.invalidate() tells the cache that this query needs to be updated
+                        cache.invalidate("Query", "posts", fi.arguments);
+                      })
+                    },
                     login: (_result, args, cache, info) => {
                       betterUpdateQuery<LoginMutation, MeQuery> (
                           cache,
