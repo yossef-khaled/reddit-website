@@ -26,7 +26,7 @@ interface IState {
 const Index: FC<IState> = () => {
 
   const [variables, setVariables] = useState({ 
-    limit: 10, 
+    limit: 1, 
     cursor: null as null | string
   })
   const [{data, fetching}] = usePostsQuery({
@@ -41,8 +41,6 @@ const Index: FC<IState> = () => {
       setWaitingDots(`${waitingDots}.`);
     }
   , 500) 
-
-  console.log('Re-render')
 
   useEffect(() => {
     timerForLoadingDots;
@@ -98,7 +96,7 @@ const Index: FC<IState> = () => {
             disabled={!data.posts.hasMore}
               onClick={() => {
                   setVariables({
-                    limit: 10,
+                    limit: 1,
                     cursor: data.posts.posts[data.posts.posts.length - 1].createdAt
                   })
               }}  
