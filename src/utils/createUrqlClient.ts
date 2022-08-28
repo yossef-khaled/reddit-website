@@ -2,7 +2,7 @@
 import { dedupExchange, fetchExchange, Exchange, stringifyVariables } from "urql";
 
 //Import from exchange-graphcache
-import { cacheExchange, Resolver } from "@urql/exchange-graphcache";
+import { cacheExchange, Resolver, Cache } from "@urql/exchange-graphcache";
 
 //Import auto generated types
 import { LoginMutation, MeQuery, MeDocument, RegisterMutation, LogoutMutation, VoteMutationVariables } from "../generated/graphql";
@@ -119,6 +119,16 @@ export const errorExchange: Exchange = ({ forward }) => ops$ => {
   );
 };
 
+export const invalidatePosts = (cache: Cache) => {
+  const allFields = cache.inspectFields("Query");
+  const fieldInfos = allFields.filter(info => info.fieldName === "posts");
+  fieldInfos.forEach((fi) => {
+    // whenever the mutation we are in is implemented, this will be excuted
+    // cache.invalidate() tells the cache that this query needs to be updated
+    cache.invalidate("Query", "posts", fi.arguments);
+  })
+}
+
 const createUrqlClient = (ssrExchange: any, ctx: any) =>{ 
   let cookie = '';
   if(typeof window === 'undefined') {
@@ -180,15 +190,10 @@ const createUrqlClient = (ssrExchange: any, ctx: any) =>{
 
                     },
                     createPost: (_result, args, cache, info) => {
-                      const allFields = cache.inspectFields("Query");
-                      const fieldInfos = allFields.filter(info => info.fieldName === "posts");
-                      fieldInfos.forEach((fi) => {
-                        // whenever the mutation we are in is implemented, this will be excuted
-                        // cache.invalidate() tells the cache that this query needs to be updated
-                        cache.invalidate("Query", "posts", fi.arguments);
-                      })
+                      invalidatePosts(cache);
                     },
                     login: (_result, args, cache, info) => {
+                      invalidatePosts(cache);
                       betterUpdateQuery<LoginMutation, MeQuery> (
                           cache,
                           {query: MeDocument},
