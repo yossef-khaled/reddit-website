@@ -119,10 +119,22 @@ export const errorExchange: Exchange = ({ forward }) => ops$ => {
   );
 };
 
-const createUrqlClient = (ssrExchange: any, ctx: any) =>({
+const createUrqlClient = (ssrExchange: any, ctx: any) =>{ 
+  let cookie = '';
+  if(typeof window === 'undefined') {
+    cookie = ctx.req.headers.cookie;
+  }
+
+  return ({
     url : 'http://localhost:4000/graphql',
     fetchOptions: {
-        credentials: 'include' as const, // If this property is sett to 'include' & the back-end does not provide cors credintials, it will throw a cors error
+        credentials: 'include' as const, // If this property is sett to 'include' & the back-end does not provide cors credintials, it will throw a cors error  
+        headers: 
+          cookie ?
+          {
+            cookie
+          }
+          : undefined
     },
     exchanges: [dedupExchange, 
         cacheExchange({
@@ -228,5 +240,5 @@ const createUrqlClient = (ssrExchange: any, ctx: any) =>({
     ssrExchange,
     fetchExchange],
 })
-
+}
 export default createUrqlClient;
