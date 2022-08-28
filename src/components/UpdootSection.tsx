@@ -19,10 +19,17 @@ export const UpdootSection: FC<UpdootSectionProps> = ({post}) => {
     return (
         <Flex direction={'column'} justify={'center'} alignItems={'center'} mr={4}>
         <IconButton
-          onClick={() => vote({
-            value: 1,
-            postId: post.id
-          })}
+          onClick={() => {
+            if(post.voteStatus == 1) {
+              return;
+            }
+            vote({
+              value: 1,
+              postId: post.id
+            })
+          }}
+          disabled={post.voteStatus === 1}
+          backgroundColor={post.voteStatus === 1 ? 'green' : ''}
           isLoading={voteMutationReturn.fetching}
           aria-label='updoot post'
           value={1}
@@ -32,10 +39,17 @@ export const UpdootSection: FC<UpdootSectionProps> = ({post}) => {
           {post.points}
         </Text>
         <IconButton
-          onClick={() => vote({
-            value: -1,
-            postId: post.id
-          })}
+          onClick={() => {
+            if(post.voteStatus == -1) {
+              return;
+            }
+            vote({
+              value: -1,
+              postId: post.id
+            })
+          }}
+          disabled={post.voteStatus === -1}
+          backgroundColor={post.voteStatus === -1 ? 'red' : ''}
           isLoading={voteMutationReturn.fetching}
           aria-label='downdoot post'
           value={-1}
