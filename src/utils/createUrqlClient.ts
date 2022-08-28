@@ -5,13 +5,15 @@ import { dedupExchange, fetchExchange, Exchange, stringifyVariables } from "urql
 import { cacheExchange, Resolver } from "@urql/exchange-graphcache";
 
 //Import auto generated types
-import { LoginMutation, MeQuery, MeDocument, RegisterMutation, LogoutMutation } from "../generated/graphql";
+import { LoginMutation, MeQuery, MeDocument, RegisterMutation, LogoutMutation, VoteMutationVariables } from "../generated/graphql";
 
 //Import others 
 import { betterUpdateQuery } from "./betterUpdateQuery";
 
 //Import from wonka
 import { filter, pipe, tap } from 'wonka';
+
+import { gql } from '@urql/core';
 
 //Import from next router
 import Router from "next/router";
@@ -117,10 +119,10 @@ export const errorExchange: Exchange = ({ forward }) => ops$ => {
   );
 };
 
-const createUrqlClient = (ssrExchange: any) => ({
+const createUrqlClient = (ssrExchange: any, ctx: any) =>({
     url : 'http://localhost:4000/graphql',
     fetchOptions: {
-        credentials: 'include' as const, // If this property is sett to 'include' & the back-end does not provide cors credintials, it will throw a cors error  
+        credentials: 'include' as const, // If this property is sett to 'include' & the back-end does not provide cors credintials, it will throw a cors error
     },
     exchanges: [dedupExchange, 
         cacheExchange({
@@ -134,6 +136,37 @@ const createUrqlClient = (ssrExchange: any) => ({
             },
             updates: {
                 Mutation: {
+                    vote: (_result, args, cache, info) => {
+                      const {postId, value} = args as VoteMutationVariables;
+
+                      const data = cache.readFragment(
+                        gql`
+                          fragment _ on Post {
+                            id
+                            points
+                            voteStatus
+                          }
+                        `,
+                        { id: postId }
+                      );
+
+                      if(data) {
+                        if(data.voteStatus === value) {
+                          return;
+                        }
+                        const newPoints = data.points + (data.voteStatus ? 2 : 1) * value;
+                        cache.writeFragment(
+                          gql`
+                            fragment __ on Post {
+                              points
+                              voteStatus
+                            }
+                          `,
+                          { id: postId, points: newPoints, voteStatus: value }
+                        );
+                      }
+
+                    },
                     createPost: (_result, args, cache, info) => {
                       const allFields = cache.inspectFields("Query");
                       const fieldInfos = allFields.filter(info => info.fieldName === "posts");
