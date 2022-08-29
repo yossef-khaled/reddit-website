@@ -1,5 +1,5 @@
 //Import from @chakra-ui/react 
-import { Box, Button, Flex, Link } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Link } from "@chakra-ui/react";
 
 //Import from next
 import NextLink from 'next/link'; 
@@ -64,15 +64,17 @@ const NavBar = ({ }) => {
     }
 
     return (
-        <Flex zIndex={1} position={'sticky'} top={0} bg={'tomato'} p={'5'}>
-            <Box ml={'auto'} mr={'2'}>
+        <Flex zIndex={1} position={'sticky'} top={0} bg={'tomato'} p={'5'} align="center">
+            <Box>
                 <NextLink href={'/'}>
                     <Link>
-                        Home
+                        <Heading>
+                            Reddit Clone
+                        </Heading>
                     </Link>
                 </NextLink>
             </Box>
-            <Box>
+            <Box ml={'auto'} mr={'2'}>
                 {navbarBody}
             </Box>
         </Flex>
