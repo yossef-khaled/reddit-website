@@ -132,7 +132,7 @@ export const invalidatePosts = (cache: Cache) => {
 const createUrqlClient = (ssrExchange: any, ctx: any) =>{ 
   let cookie = '';
   if(typeof window === 'undefined') {
-    cookie = ctx?.req.headers.cookie;
+    cookie = ctx?.req?.headers?.cookie;
   }
 
   return ({
