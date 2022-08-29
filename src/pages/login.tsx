@@ -1,5 +1,5 @@
 //Import react
-import React, { FC, useEffect } from 'react'; 
+import React, { FC } from 'react'; 
 
 //Import from @chakra-ui/react
 import { Box, Button, Link, Flex } from '@chakra-ui/react';
