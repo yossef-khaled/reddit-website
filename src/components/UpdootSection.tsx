@@ -1,15 +1,15 @@
 //Import react
-import React, { FC, useEffect, useState } from 'react'; 
+import React, { FC } from 'react'; 
 
 //Import from @chakra-ui/react
 import { Flex, IconButton, Text } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 
 //Import graphql hooks generated with graphql code generator
-import { PostsQuery, useVoteMutation } from '../generated/graphql';
+import { PostQuery, PostsQuery, useVoteMutation } from '../generated/graphql';
 
 interface UpdootSectionProps {
-    post: PostsQuery['posts']['posts'][0]
+    post: PostsQuery['posts']['posts'][0] | PostQuery['post'];
 }
 
 export const UpdootSection: FC<UpdootSectionProps> = ({post}) => {
