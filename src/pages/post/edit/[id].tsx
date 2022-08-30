@@ -60,10 +60,7 @@ export const EditPost = ({}) => {
                         text: text,
                         title: title
                     });
-                    // if(!response.data?.updatePost) {
-                        // throw new Error('Could update post.')
-                    // }
-                    router.replace('/');
+                    router.back();
                 }}    
             >
                 {({values, handleChange, isSubmitting}) => (
