@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 //Import other components
 import Layout from "../../components/layout";
 import LoadingDots from "../../components/LoadingDots";
+import PostEditDeleteButtons from "../../components/PostEditDeleteButtons";
 import { UpdootSection } from "../../components/UpdootSection";
 
 //Import auto generated stuff
@@ -33,16 +34,17 @@ export const Post = ({}) => {
     return (
         <Layout>
         {
-            fetching ?
+            fetching && !data?.post ?
             <LoadingDots isLoading={fetching}/>
             :
-            <Flex p={5} key={data?.post?.id} shadow='md' borderWidth='1px'>
+            <Flex mb={150} p={5} key={data?.post?.id} shadow='md' borderWidth='1px'>
                 <UpdootSection post={data?.post!}/>
                 <Box>
                   <Heading fontSize='2xl'>{data?.post?.title}</Heading>
                   By {' '}
                   <Text fontWeight={'bold'} fontSize={'large'} display={'inline'} mt={4}>{data?.post?.creator.username}</Text>
                   <Text mt={4}>{data?.post?.text}</Text>
+                  <PostEditDeleteButtons id={data!.post.id} creatorId={data!.post.creator.id}/>
                 </Box>
             </Flex>
         }
