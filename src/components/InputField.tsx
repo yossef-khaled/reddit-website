@@ -34,6 +34,7 @@ const InputField: FC<InputFieldProps> = ({label, textarea, placeholder, size: _,
                 {...field} 
                 {...props}
                 type={props.type}
+                height={textarea ? 250 : 50}
                 id={field.name} 
                 placeholder={placeholder}
             />
