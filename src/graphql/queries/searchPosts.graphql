@@ -1,0 +1,5 @@
+query SearchPosts($searchString: String!) {
+    searchPosts (searchString: $searchString) {
+        ...PostSnippet
+    }
+}
