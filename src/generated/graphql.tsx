@@ -123,6 +123,7 @@ export type Query = {
   me?: Maybe<User>;
   post: Post;
   posts: PaginatedPosts;
+  searchPosts: Array<Post>;
   users: Array<User>;
 };
 
@@ -135,6 +136,11 @@ export type QueryPostArgs = {
 export type QueryPostsArgs = {
   cursor?: InputMaybe<Scalars['String']>;
   limit: Scalars['Int'];
+};
+
+
+export type QuerySearchPostsArgs = {
+  searchString: Scalars['String'];
 };
 
 export type Updoot = {
@@ -261,6 +267,13 @@ export type PostsQueryVariables = Exact<{
 
 
 export type PostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', hasMore: boolean, posts: Array<{ __typename?: 'Post', id: number, title: string, textSnippet: string, createdAt: string, updatedAt: string, points: number, voteStatus?: number | null, creator: { __typename?: 'User', id: number, username: string } }> } };
+
+export type SearchPostsQueryVariables = Exact<{
+  searchString: Scalars['String'];
+}>;
+
+
+export type SearchPostsQuery = { __typename?: 'Query', searchPosts: Array<{ __typename?: 'Post', id: number, title: string, textSnippet: string, createdAt: string, updatedAt: string, points: number, voteStatus?: number | null, creator: { __typename?: 'User', id: number, username: string } }> };
 
 export const PostSnippetFragmentDoc = gql`
     fragment PostSnippet on Post {
@@ -462,4 +475,15 @@ export const PostsDocument = gql`
 
 export function usePostsQuery(options: Omit<Urql.UseQueryArgs<PostsQueryVariables>, 'query'>) {
   return Urql.useQuery<PostsQuery>({ query: PostsDocument, ...options });
+};
+export const SearchPostsDocument = gql`
+    query SearchPosts($searchString: String!) {
+  searchPosts(searchString: $searchString) {
+    ...PostSnippet
+  }
+}
+    ${PostSnippetFragmentDoc}`;
+
+export function useSearchPostsQuery(options: Omit<Urql.UseQueryArgs<SearchPostsQueryVariables>, 'query'>) {
+  return Urql.useQuery<SearchPostsQuery>({ query: SearchPostsDocument, ...options });
 };
