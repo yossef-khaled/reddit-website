@@ -5,6 +5,7 @@ import { Box, Button, Flex, Heading, Link } from "@chakra-ui/react";
 import NextLink from 'next/link'; 
 import { useEffect, useState } from "react";
 import { useLogoutMutation, useMeQuery } from "../generated/graphql";
+import SearchBar from "./Searchbar";
 
 const NavBar = ({ }) => {
 
@@ -78,6 +79,7 @@ const NavBar = ({ }) => {
                     </Link>
                 </NextLink>
             </Box>
+                <SearchBar/>
             <Box ml={'auto'} mr={'2'}>
                 {navbarBody}
             </Box>
