@@ -2,21 +2,14 @@
 import { FC, useState } from 'react';
 
 //Import from chakra 
-import { Flex, Button, Box, Link } from '@chakra-ui/react';
+import { Flex, Button, Box, Link, Text } from '@chakra-ui/react';
 
 //Import from formik
 import { Formik, Form } from 'formik';
 
-//Import from Next.js
-import NextLink from 'next/link';
-import router from 'next/router';
-
 //import other components
 import InputField from '../components/InputField';
 import Wrapper from '../components/Wrapper';
-
-//Import utils
-import { toErrorMap } from '../utils/toErrorMap';
 
 //Import urql stuff
 import { withUrqlClient } from 'next-urql';
@@ -48,9 +41,25 @@ const ForgotPassword: FC<{}> = ({ }) => {
             >
                 {({values, handleChange, isSubmitting}) =>
                     isComplete ? 
-                    <Box>
-                        Please, check your e-mail inbox
-                    </Box>
+                    <Flex >
+                        <Box>
+                            <Text>
+                                Please, check your e-mail inbox, if it is not there, check your spam folder.
+                            </Text>
+                            <Button
+                                mt={10} 
+                                mx={'auto'} 
+                                backgroundColor={'turquoise'} 
+                                color={'white'} 
+                                onClick={() => {
+                                    setIsComplete(false);
+                                    values.email = '';
+                                }}
+                            >
+                                Resend e-mail
+                            </Button>
+                        </Box>
+                    </Flex>
                 :
                 (
                     <Form>
