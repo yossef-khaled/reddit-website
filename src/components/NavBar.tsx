@@ -54,7 +54,11 @@ const NavBar = ({ }) => {
                 </Box>
                 <Button 
                     variant='link' 
-                    onClick={() => {doLogout()}}
+                    onClick={ async () => {
+                        await doLogout();
+                        location.reload();
+                    
+                    }}
                     isLoading={logoutMutationResult.fetching}
                 >
                     Logout
