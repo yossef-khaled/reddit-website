@@ -136,7 +136,7 @@ const createUrqlClient = (ssrExchange: any, ctx: any) =>{
   }
 
   return ({
-    url : 'http://localhost:4000/graphql',
+    url : process.env.NEXT_PUBLIC_GRAPHQL_URL as string,
     fetchOptions: {
         credentials: 'include' as const, // If this property is sett to 'include' & the back-end does not provide cors credintials, it will throw a cors error  
         headers: 
@@ -158,7 +158,7 @@ const createUrqlClient = (ssrExchange: any, ctx: any) =>{
             },
             updates: {
                 Mutation: {
-                    vote: (_result, args, cache, info) => {
+                    vote: (_result, args, cache) => {
                       const {postId, value} = args as VoteMutationVariables;
 
                       const data = cache.readFragment(
@@ -189,16 +189,16 @@ const createUrqlClient = (ssrExchange: any, ctx: any) =>{
                       }
 
                     },
-                    createPost: (_result, args, cache, info) => {
+                    createPost: (_result, _, cache) => {
                       invalidatePosts(cache);
                     },
-                    deletePost: (_result, args, cache, info) => {
+                    deletePost: (_result, args, cache) => {
                       cache.invalidate({ 
                         __typename: 'Post', 
                         id: (args as DeletePostMutationVariables).id
                       });
                     },
-                    login: (_result, args, cache, info) => {
+                    login: (_result, _, cache) => {
                       invalidatePosts(cache);
                       betterUpdateQuery<LoginMutation, MeQuery> (
                           cache,
@@ -214,7 +214,7 @@ const createUrqlClient = (ssrExchange: any, ctx: any) =>{
                           }
                       )
                     },
-                    register: (_result, args, cache, info) => {
+                    register: (_result, _, cache) => {
                       betterUpdateQuery<RegisterMutation, MeQuery> (
                         cache,
                         {query: MeDocument},
@@ -229,7 +229,7 @@ const createUrqlClient = (ssrExchange: any, ctx: any) =>{
                         }
                       )
                     },
-                    logout: (_result, args, cache, info) => {
+                    logout: (_result, _, cache) => {
                       betterUpdateQuery<LogoutMutation, MeQuery> (
                         cache,
                         {query: MeDocument},
