@@ -4,7 +4,7 @@ import { useMeQuery } from "../generated/graphql";
 
 
 export const userIsAuth = () => {
-    const [{data, fetching}, whoAmI] = useMeQuery();
+    const [{data, fetching}] = useMeQuery();
     const router = useRouter();
     
     useEffect(() => {

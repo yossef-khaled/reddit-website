@@ -15,7 +15,7 @@ const NavBar = ({ }) => {
         setIsServer(false);
     }, [])
 
-    const [ {data, fetching, error}, whoAmI] = useMeQuery({
+    const [ {data, fetching }] = useMeQuery({
         // The following piece of code throws an error when isServer depends on typeof window 
         // as it will deffer between the ssr value and the browser value (I guess...)
         // See : https://nextjs.org/docs/messages/react-hydration-error

@@ -43,7 +43,7 @@ const CreatePost: FC<{}> = ({}) => {
                     router.replace('/');
                 }}    
             >
-                {({values, handleChange, isSubmitting}) => (
+                {({isSubmitting}) => (
                     <Form>
                         <InputField
                             name='title'

@@ -1,5 +1,5 @@
 //Import react
-import React, { FC, useEffect } from 'react'; 
+import React, { FC } from 'react'; 
 
 //Import from @chakra-ui/react
 import { Box, Button } from '@chakra-ui/react';
@@ -27,7 +27,7 @@ interface registerProps {
 const Register: FC<registerProps> = ({}) => {
 
     const router = useRouter();
-    const [registerMutationResult, doRegister] = useRegisterMutation();
+    const [_, doRegister] = useRegisterMutation();
 
     return (
         <Wrapper>
@@ -43,7 +43,7 @@ const Register: FC<registerProps> = ({}) => {
                     }
                 }}    
             >
-                {({values, handleChange, isSubmitting}) => (
+                {({isSubmitting}) => (
                     <Form>
                         <InputField
                             name='username'

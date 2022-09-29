@@ -50,7 +50,7 @@ const ChangePassword: NextPage<{token: string}> = ({token}) => {
                     }
                 }}    
             >
-                {({values, handleChange, isSubmitting}) => (
+                {({isSubmitting}) => (
                     <Form>
                         <InputField
                             name='newPassword'

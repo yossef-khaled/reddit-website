@@ -2,7 +2,7 @@
 import { FC, useState } from 'react';
 
 //Import from chakra 
-import { Flex, Button, Box, Link, Text } from '@chakra-ui/react';
+import { Flex, Button, Box, Text } from '@chakra-ui/react';
 
 //Import from formik
 import { Formik, Form } from 'formik';
@@ -39,7 +39,7 @@ const ForgotPassword: FC<{}> = ({ }) => {
                     setIsComplete(true);
                 }}    
             >
-                {({values, handleChange, isSubmitting}) =>
+                {({values, isSubmitting}) =>
                     isComplete ? 
                     <Flex >
                         <Box>

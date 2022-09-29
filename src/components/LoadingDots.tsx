@@ -5,7 +5,7 @@ interface LoadingDotsProps {
 
 }
 
-const LoadingDots: FC<LoadingDotsProps> = ({isLoading, ...props}) => {
+const LoadingDots: FC<LoadingDotsProps> = ({isLoading}) => {
     const [waitingDots, setWaitingDots] = useState('');
 
     // TODO : use setInterval instead

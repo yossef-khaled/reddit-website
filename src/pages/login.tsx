@@ -46,7 +46,7 @@ const Login: FC<loginProps> = ({}) => {
                     }
                 }}    
             >
-                {({values, handleChange, isSubmitting}) => (
+                {({isSubmitting}) => (
                     <Form>
                         <InputField
                             name='usernameOrEmail'

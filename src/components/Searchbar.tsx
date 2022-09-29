@@ -31,12 +31,11 @@ import { useSearchPostsQuery } from "../generated/graphql";
 const SearchBar = ({  }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [searchString, setSearchString] = useState('');
-    const [{data, error, fetching}, search] = useSearchPostsQuery({
+    const [{data}, search] = useSearchPostsQuery({
         variables: {searchString}  
     })
 
     useEffect( () => {
-        console.log(data?.searchPosts);
         search({searchString});
     }, [searchString])
 

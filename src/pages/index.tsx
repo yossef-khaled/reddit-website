@@ -1,5 +1,5 @@
 //Import from react
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 
 //Import my urql client
 import createUrqlClient from "../utils/createUrqlClient";
@@ -30,9 +30,16 @@ const Index: FC<IState> = () => {
     limit: 10, 
     cursor: null as null | string
   })
-  const [{data, error, fetching}] = usePostsQuery({
+
+  const [{data, error, fetching}, getPosts] = usePostsQuery({
     variables
   });
+
+  useEffect(() => {
+    getPosts({
+      variables
+    })
+  }, [variables])
 
   if(!fetching && !data?.posts) {
     return (
@@ -92,7 +99,7 @@ const Index: FC<IState> = () => {
               onClick={() => {
                   setVariables({
                     limit: 10,
-                    cursor: data.posts.posts[data.posts.posts.length - 1].createdAt
+                    cursor: data!.posts.posts[data!.posts.posts.length - 1].createdAt
                   })
               }}  
               m='auto' 

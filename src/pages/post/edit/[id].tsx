@@ -28,7 +28,7 @@ export const EditPost = ({}) => {
     const router = useRouter();
     
     const idAsInt = typeof router.query.id === 'string' ? parseInt(router.query.id) : -1;
-    const [{data, error, fetching}] = usePostQuery({
+    const [{data, fetching}] = usePostQuery({
         pause: idAsInt === -1,
         variables: {
             id: idAsInt
@@ -54,8 +54,8 @@ export const EditPost = ({}) => {
                 :
                 <Formik 
                 initialValues={{title: '', text: ''}}
-                onSubmit={async (values, { setErrors }) => {
-                    const response = await editPost({
+                onSubmit={async ({ }) => {
+                    await editPost({
                         id: idAsInt,
                         text: text,
                         title: title
@@ -63,7 +63,7 @@ export const EditPost = ({}) => {
                     router.back();
                 }}    
             >
-                {({values, handleChange, isSubmitting}) => (
+                {({isSubmitting}) => (
                     <Form>
                         <InputField
                             name='title'
