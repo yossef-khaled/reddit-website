@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from "react";
+import { Box, Flex, Text } from '@chakra-ui/react';
 
 interface LoadingDotsProps {
     isLoading: boolean;
@@ -25,9 +26,13 @@ const LoadingDots: FC<LoadingDotsProps> = ({isLoading}) => {
     }
     
     return (
-        <div>
-            Loading{waitingDots}
-        </div>
+        <Flex>
+            <Box ml={'46%'} mr={'50%'}>
+                <Text fontSize={"3xl"} fontWeight={"bold"}>
+                    Loading{waitingDots}
+                </Text>
+            </Box>
+        </Flex>
     )
 }
 
